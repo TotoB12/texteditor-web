@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ filename }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+      <br>
+        <h1>{{ filename }}</h1>
+      </br>
+        <form action="/edit?filename={{ filename }}" method="post">
+            <div id="textarea" class="form-group">
+              <textarea class="form-control" id="text" name="text" rows="10">{{ text }}</textarea>
+            </div>
+        </form>
+    </div>
+    <script>
+        window.content = document.getElementById('text').value;
+        console.log(content);
+      
+        setInterval(function() {
+          var text = document.getElementById('text').value;
+          if (text != window.content) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/edit?filename={{ filename }}', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('text=' + encodeURIComponent(text));
+            window.content = document.getElementById('text').value;
+          }
+          else {
+            console.log("none");
+            //$("#textarea").load(window.location.href + "#textarea" );
+          }
+        }, 1000);
+    </script>
+</body>
+</html>
